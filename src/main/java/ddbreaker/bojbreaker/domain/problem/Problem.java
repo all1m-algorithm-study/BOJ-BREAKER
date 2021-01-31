@@ -35,4 +35,10 @@ public class Problem {
         this.acTries = acTries;
         this.avgTries = avgTries;
     }
+
+    public void update(String title, Long acTries, double avgTries) {
+        this.title = title;
+        this.acTries = acTries;
+        this.avgTries = avgTries;
+    }
 }
