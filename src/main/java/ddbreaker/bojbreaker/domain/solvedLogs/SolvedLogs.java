@@ -1,4 +1,4 @@
-package ddbreaker.bojbreaker.domain.SolvedLogs;
+package ddbreaker.bojbreaker.domain.solvedLogs;
 
 import lombok.Builder;
 import lombok.Getter;

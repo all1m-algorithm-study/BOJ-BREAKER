@@ -1,4 +1,4 @@
-package ddbreaker.bojbreaker.domain.School;
+package ddbreaker.bojbreaker.domain.school;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

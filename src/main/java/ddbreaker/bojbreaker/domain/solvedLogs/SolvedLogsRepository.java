@@ -1,4 +1,4 @@
-package ddbreaker.bojbreaker.domain.SolvedLogs;
+package ddbreaker.bojbreaker.domain.solvedLogs;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
