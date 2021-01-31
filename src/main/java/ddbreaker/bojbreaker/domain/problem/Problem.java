@@ -24,9 +24,6 @@ public class Problem {
     private Long acTries;       // 맞은 사람 수
     private double avgTries;    // 평균 시도 횟수
 
-//    private boolean isSolved;
-    // School에 관련 값이 들어가야 하는지 체크 요함
-
     @Builder
     public Problem(Long id, String title, SolvedAcTier tier, Long acTries, double avgTries) {
         this.id = id;
