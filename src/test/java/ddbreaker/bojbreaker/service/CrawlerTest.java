@@ -1,4 +1,4 @@
-package ddbreaker.bojbreaker;
+package ddbreaker.bojbreaker.service;
 
 import ddbreaker.bojbreaker.domain.solvedLogs.SolvedLogsRepository;
 import ddbreaker.bojbreaker.service.Crawler;
