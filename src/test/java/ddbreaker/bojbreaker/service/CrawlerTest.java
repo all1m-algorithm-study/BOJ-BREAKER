@@ -2,6 +2,7 @@ package ddbreaker.bojbreaker.service;
 
 import ddbreaker.bojbreaker.domain.problem.SolvedAcTier;
 import ddbreaker.bojbreaker.service.dto.ProblemParseDto;
+import ddbreaker.bojbreaker.service.dto.Submit;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,35 @@ public class CrawlerTest {
     @Autowired
     public CrawlerTest(Crawler crawler) {
         this.crawler = crawler;
+    }
+
+    @Test
+    public void 특정_학교_채점현황_크롤링() throws Exception {
+        //given
+        Long schoolId = 302L;
+        Long lastSubmitId = 26088286L;
+
+        //when
+        List<Submit> submitList = crawler.getSubmitList(schoolId, lastSubmitId);
+
+        //then
+        for (Submit submit : submitList) {
+            System.out.println(submit.getSubmitId() + " " + submit.getUserId() + submit.getProblemId());
+        }
+        assertThat(submitList.size()).isGreaterThan(0);
+    }
+
+    @Test
+    public void 특정_학교_푼_문제수_크롤링() throws Exception {
+        //given
+        Long schoolId = 302L;
+
+        //when
+        Long solvedCount = crawler.getSolvedCount(schoolId);
+
+        //then
+        System.out.println(solvedCount);
+        assertThat(solvedCount).isGreaterThan(0L);
     }
 
     @Test

@@ -3,6 +3,7 @@ package ddbreaker.bojbreaker.service;
 import ddbreaker.bojbreaker.domain.problem.SolvedAcTier;
 import ddbreaker.bojbreaker.domain.solvedLogs.SolvedLogsRepository;
 import ddbreaker.bojbreaker.service.dto.ProblemParseDto;
+import ddbreaker.bojbreaker.service.dto.Submit;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.ExtensionMethod;
 import org.jsoup.Jsoup;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,28 +23,63 @@ import java.util.List;
 @Component
 public class Crawler {
 
-    public Long updateSolvedProlems() {
-        try {
-            Document doc = Jsoup.connect("https://www.acmicpc.net/status?result_id=4&school_id=302").get();
-            Element tbody = doc.selectFirst("tbody");
-        } catch (java.io.IOException e) {
-            System.out.println("jsoup error");
+    // 우리학교가 새롭게 푼 문제 parsing
+    public List<Submit> getSubmitList(Long schoolId, Long lastSubmitId) throws Exception {
+        List<Submit> submitList = new ArrayList<>();
+        Long curSubmitId = -1L;
+        String uri = "https://www.acmicpc.net/status?result_id=4&school_id=" + schoolId;
+        Document document = Jsoup.connect(uri).get();
+        while (true) {
+            Element statusTable = document.selectFirst("#status-table");
+            Elements trs = statusTable.select("tr");
+            for (int i = 1; i < trs.size(); i++) {
+                Elements tds = trs.get(i).select("td");
+                // 채점번호
+                curSubmitId = Long.parseLong(tds.get(0).text());
+                // 아이디
+                String userId = tds.get(1).text();
+                // 문제번호
+                Long problemId = Long.parseLong(tds.get(2).text());
+                // 언어
+                String language = tds.get(6).text();
+                // 제출시간
+                String submitTimeStr = tds.get(8).selectFirst("a[href]").attr("title");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                LocalDateTime submitTime = LocalDateTime.parse(submitTimeStr, formatter);
+                // 마지막 채점 번호에 도달
+                if (curSubmitId <= lastSubmitId) {
+                    return submitList;
+                }
+                // Add Submit
+                submitList.add(
+                        Submit.builder()
+                        .submitId(curSubmitId)
+                        .userId(userId)
+                        .problemId(problemId)
+                        .language(language)
+                        .submitTime(submitTime)
+                        .build()
+                );
+            }
+            Thread.sleep(300);
+            document = Jsoup.connect(uri + "&top=" + (curSubmitId - 1)).get();
         }
-        return 0L;
     }
 
-    public void updateNewProlems() {
-
-    }
-
-    public Long getSolvedCount() {
-        try {
-            Document doc = Jsoup.connect("https://www.acmicpc.net/ranklist/school").get();
-            Element tbody = doc.selectFirst("tbody");
-        } catch (java.io.IOException e) {
-            System.out.println("jsoup error");
+    // 우리학교가 푼 문제 수 parsing
+    public Long getSolvedCount(Long schoolId) throws Exception {
+        String uri = "https://www.acmicpc.net/ranklist/school";
+        Document document = Jsoup.connect(uri).get();
+        Element rankList = document.selectFirst("#ranklist");
+        Elements trs = rankList.select("tr");
+        for (int i = 1; i < trs.size(); i++) {
+            Elements tds = trs.get(i).select("td");
+            Element link = tds.get(4).selectFirst("a[href]");
+            if (link.attr("href").equals(String.format("/status?school_id=%d&result_id=4", schoolId))) {
+                return Long.parseLong(link.text());
+            }
         }
-        return 0L;
+        return -1L;
     }
 
     // solved.ac에서 각 티어별 문제 parsing
