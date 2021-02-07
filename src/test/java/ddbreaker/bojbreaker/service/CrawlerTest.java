@@ -55,7 +55,7 @@ public class CrawlerTest {
     @Test
     public void 특정_학교_푼_문제목록_크롤링() throws Exception {
         //given
-        Long schoolId = 302L;
+        Long schoolId = 766L;
 
         //when
         List<Long> schoolSolvedList = crawler.getSchoolSolvedList(schoolId);
@@ -87,10 +87,11 @@ public class CrawlerTest {
         SolvedAcTier tier = SolvedAcTier.DIAMOND4;
 
         //when
-        List<ProblemParseDto> problems = crawler.crawlProblmes(tier);
+        List<ProblemParseDto> problems = crawler.getProblemsFromTier(tier);
 
         //then
 //        assertThat(problems.get(0).getId()).isEqualTo(1123);
+        assertThat(problems.size()).isGreaterThan(0);
         System.out.println(problems.size());
         for (ProblemParseDto dto : problems) {
             System.out.println(dto.getId() + " " + dto.getTitle());
