@@ -25,7 +25,7 @@ public class CrawlerTest {
     @Test
     public void 특정_티어_문제_크롤링() throws Throwable {
         //given
-        SolvedAcTier tier = SolvedAcTier.GOLD1;
+        SolvedAcTier tier = SolvedAcTier.DIAMOND4;
 
         //when
         List<ProblemParseDto> problems = crawler.crawlProblmes(tier);
