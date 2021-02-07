@@ -53,6 +53,35 @@ public class CrawlerTest {
     }
 
     @Test
+    public void 특정_학교_푼_문제목록_크롤링() throws Exception {
+        //given
+        Long schoolId = 302L;
+
+        //when
+        List<Long> schoolSolvedList = crawler.getSchoolSolvedList(schoolId);
+
+        //then
+        System.out.println(schoolSolvedList.size());
+        System.out.println(schoolSolvedList);
+        assertThat(schoolSolvedList.size()).isGreaterThan(0);
+    }
+
+    @Test
+    public void 특정_학교_유저목록_크롤링() throws Exception {
+        //given
+        Long schoolId = 302L;
+
+        //when
+        List<String> schoolUserList = crawler.getSchoolUserList(schoolId);
+
+        //then
+        for (String schoolUser : schoolUserList) {
+            System.out.println(schoolUser);
+        }
+        assertThat(schoolUserList.size()).isGreaterThan(0);
+    }
+
+    @Test
     public void 특정_티어_문제_크롤링() throws Throwable {
         //given
         SolvedAcTier tier = SolvedAcTier.DIAMOND4;

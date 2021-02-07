@@ -18,14 +18,14 @@ public class School {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long schoolId;
     private Long solvedCount;
     private Long lastCrawledSubmitId;
-    private Long lastCrawledproblemId;
 
     @Builder
-    public School(Long solvedCount, Long lastCrawledSubmitId, Long lastCrawledproblemId) {
+    public School(Long schoolId, Long solvedCount, Long lastCrawledSubmitId) {
+        this.schoolId = schoolId;
         this.solvedCount = solvedCount;
         this.lastCrawledSubmitId = lastCrawledSubmitId;
-        this.lastCrawledproblemId = lastCrawledproblemId;
     }
 }
