@@ -1,26 +1,18 @@
 package ddbreaker.bojbreaker.service;
 
 import ddbreaker.bojbreaker.domain.problem.SolvedAcTier;
-import ddbreaker.bojbreaker.domain.solvedLogs.SolvedLogsRepository;
 import ddbreaker.bojbreaker.service.dto.ProblemParseDto;
 import ddbreaker.bojbreaker.service.dto.Submit;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.ExtensionMethod;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.LongStream;
-
 
 @Component
 public class Crawler {
@@ -123,7 +115,7 @@ public class Crawler {
     }
 
     // solved.ac에서 각 티어별 문제 parsing
-    public List<ProblemParseDto> crawlProblmes(SolvedAcTier tier) throws Exception {
+    public List<ProblemParseDto> getProblemsFromTier(SolvedAcTier tier) throws Exception {
         List<ProblemParseDto> parsedProblems = new ArrayList<>();
         String uri = "https://solved.ac/problems/level/" + tier.ordinal();
         for (int page = 1 ; ; page++) {
@@ -151,7 +143,7 @@ public class Crawler {
             
             if (problemIds.size() < 100)
                 break;
-            Thread.sleep((int)(Math.random() * 10000) + 7000);   // 7~10초 대기
+            Thread.sleep((int)(Math.random() * 1500) + 500);   // 0.5 ~ 1.5 초 대기
         }
 
         return parsedProblems;
