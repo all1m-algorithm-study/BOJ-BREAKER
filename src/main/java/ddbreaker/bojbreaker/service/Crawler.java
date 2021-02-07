@@ -16,8 +16,10 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 
 @Component
@@ -80,6 +82,44 @@ public class Crawler {
             }
         }
         return -1L;
+    }
+
+    public List<Long> getSchoolSolvedList(Long schoolId) throws Exception {
+        Set<Long> solvedSet = new TreeSet<>();
+        List<String> schoolUserList = getSchoolUserList(schoolId);
+        String uri = "https://www.acmicpc.net/user/";
+        for (String schoolUser : schoolUserList) {
+            Document document = Jsoup.connect(uri + schoolUser).get();
+            Element panel = document.select("div[class=panel panel-default]").get(0);
+            List<Long> problemIds = Arrays.stream(
+                    panel.selectFirst("div.panel-body").text().split(" "))
+                    .mapToLong(Long::parseLong)
+                    .boxed()
+                    .collect(Collectors.toList());
+            solvedSet.addAll(problemIds);
+            Thread.sleep(300);
+        }
+        return new ArrayList<>(solvedSet);
+    }
+
+    public List<String> getSchoolUserList(Long schoolId) throws Exception {
+        List<String> userList = new ArrayList<>();
+        String uri = "https://www.acmicpc.net/school/ranklist/" + schoolId;
+        Document document = Jsoup.connect(uri).get();
+        // page
+        int pageSize = document.select("ul.pagination > li").size() - 2;
+        for (int page = 1; page <= pageSize; page++) {
+            document = Jsoup.connect(uri + '/' + page).get();
+            Element rankList = document.selectFirst("#ranklist");
+            Elements trs = rankList.select("tr");
+            for (int i = 1; i < trs.size(); i++) {
+                Elements tds = trs.get(i).select("td");
+                String userId = tds.get(1).text();
+                userList.add(userId);
+            }
+            Thread.sleep(300);
+        }
+        return userList;
     }
 
     // solved.ac에서 각 티어별 문제 parsing
