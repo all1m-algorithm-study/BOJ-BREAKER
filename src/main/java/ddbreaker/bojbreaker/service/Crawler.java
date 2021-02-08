@@ -135,7 +135,7 @@ public class Crawler {
                             .id(Long.parseLong(problemIds.get(i).text()))
                             .title(problemTitles.get(i).text())
                             .acTries(Long.parseLong(acTriesAndAvgTries.get(2*i).text().replaceAll(",", "")))
-                            .avgTries(Double.parseDouble(acTriesAndAvgTries.get(2*i+1).text()))
+                            .avgTries(Double.parseDouble(acTriesAndAvgTries.get(2*i+1).text().replaceAll(",", "")))
                             .tier(tier)
                             .build()
                 );
