@@ -33,9 +33,12 @@ public class Problem {
         this.avgTries = avgTries;
     }
 
-    public void update(String title, Long acTries, double avgTries) {
+    public Problem update(String title, SolvedAcTier tier, Long acTries, double avgTries) {
         this.title = title;
+        this.tier = tier;
         this.acTries = acTries;
         this.avgTries = avgTries;
+
+        return this;
     }
 }
