@@ -43,7 +43,7 @@ public class ProblemServiceTest {
         assertThat(allProblems.size()).isGreaterThan(1);
         System.out.println("The number of Problems: " + allProblems.size());
         for (Problem p: allProblems)
-            System.out.println(p.getId() + " " + p.getTitle() + " " + p.getTier());
+            System.out.println(p.getProblemId() + " " + p.getTitle() + " " + p.getTier());
 
     }
 }

@@ -1,13 +1,13 @@
 package ddbreaker.bojbreaker.domain.school;
 
+import ddbreaker.bojbreaker.domain.solved.Solved;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -18,9 +18,16 @@ public class School {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long schoolId;
-    private Long solvedCount;
-    private Long lastCrawledSubmitId;
+    @Column(nullable = false)
+    private Long schoolId;      // 학교 번호
+
+    @Column(nullable = false)
+    private Long solvedCount;       // 푼 문제 수
+
+    private Long lastCrawledSubmitId;       // 마지막 채점 번호
+
+    @OneToMany(mappedBy = "school")
+    private List<Solved> solvedList = new ArrayList<>();
 
     @Builder
     public School(Long schoolId, Long solvedCount, Long lastCrawledSubmitId) {

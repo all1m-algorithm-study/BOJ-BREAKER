@@ -38,7 +38,7 @@ public class ProblemService {
     }
 
     private void saveOrUpdate(ProblemParseDto dto) {
-        Problem problem =  problemRepository.findById(dto.getId())
+        Problem problem =  problemRepository.findById(dto.getProblemId())
                 .map(entity -> entity.update(dto.getTitle(),
                         dto.getTier(),
                         dto.getAcTries(),

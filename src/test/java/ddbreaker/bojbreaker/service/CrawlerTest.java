@@ -94,7 +94,7 @@ public class CrawlerTest {
         assertThat(problems.size()).isGreaterThan(0);
         System.out.println(problems.size());
         for (ProblemParseDto dto : problems) {
-            System.out.println(dto.getId() + " " + dto.getTitle());
+            System.out.println(dto.getProblemId() + " " + dto.getTitle());
         }
     }
 }

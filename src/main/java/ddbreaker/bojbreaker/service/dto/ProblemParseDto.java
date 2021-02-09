@@ -10,15 +10,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProblemParseDto {
 
-    private Long id;            // 문제 번호
+    private Long problemId;            // 문제 번호
     private String title;       // 문제 이름
     private Long acTries;       // 맞은 사람 수
     private double avgTries;    // 평균 시도 횟수
     private SolvedAcTier tier;  // solved.ac 티어
 
     @Builder
-    public ProblemParseDto(Long id, String title, Long acTries, double avgTries, SolvedAcTier tier) {
-        this.id = id;
+    public ProblemParseDto(Long problemId, String title, Long acTries, double avgTries, SolvedAcTier tier) {
+        this.problemId = problemId;
         this.title = title;
         this.acTries = acTries;
         this.avgTries = avgTries;
@@ -27,7 +27,7 @@ public class ProblemParseDto {
 
     public Problem toEntity() {
         return Problem.builder()
-                .id(id)
+                .problemId(problemId)
                 .title(title)
                 .acTries(acTries)
                 .avgTries(avgTries)

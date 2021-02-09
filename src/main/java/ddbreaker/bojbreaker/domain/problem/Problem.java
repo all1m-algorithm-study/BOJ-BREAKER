@@ -1,10 +1,13 @@
 package ddbreaker.bojbreaker.domain.problem;
 
+import ddbreaker.bojbreaker.domain.solved.Solved;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -12,7 +15,11 @@ import javax.persistence.*;
 public class Problem {
 
     @Id
-    private Long id;            //문제 번호
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private Long problemId;            //문제 번호
 
     @Column(nullable = false)
     private String title;       //문제 이름
@@ -24,9 +31,12 @@ public class Problem {
     private Long acTries;       // 맞은 사람 수
     private double avgTries;    // 평균 시도 횟수
 
+    @OneToMany(mappedBy = "problem")
+    private List<Solved> solvedList = new ArrayList<>();
+
     @Builder
-    public Problem(Long id, String title, SolvedAcTier tier, Long acTries, double avgTries) {
-        this.id = id;
+    public Problem(Long problemId, String title, SolvedAcTier tier, Long acTries, double avgTries) {
+        this.problemId = problemId;
         this.title = title;
         this.tier = tier;
         this.acTries = acTries;

@@ -30,14 +30,14 @@ public class ProblemRepositoryTest {
     @Test
     public void 문제저장_불러오기() {
         //given
-        Long id = 1000L;
+        Long problemId = 1000L;
         String title = "A+B";
         SolvedAcTier tier = SolvedAcTier.BRONZE5;
         Long acTries = 112017L;
         double avgTries = 2.2773;
 
         problemRepository.save(Problem.builder()
-                        .id(id)
+                        .problemId(problemId)
                         .title(title)
                         .tier(tier)
                         .acTries(acTries)
@@ -49,7 +49,7 @@ public class ProblemRepositoryTest {
 
         //then
         Problem problem = problemList.get(0);
-        assertThat(problem.getId()).isEqualTo(id);
+        assertThat(problem.getProblemId()).isEqualTo(problemId);
         assertThat(problem.getTitle()).isEqualTo(title);
         assertThat(problem.getTier()).isEqualTo(tier);
         assertThat(problem.getAcTries()).isEqualTo(acTries);
