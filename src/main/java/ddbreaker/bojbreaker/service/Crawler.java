@@ -60,6 +60,16 @@ public class Crawler {
         }
     }
 
+    // 우리학교의 최근(1페이지 최하단) 제출번호 parsing
+    public Long getLastCrawledSubmitId(Long schoolId) throws Exception {
+        String uri = "https://www.acmicpc.net/status?result_id=4&school_id=" + schoolId;
+        Document document = Jsoup.connect(uri).get();
+        Element statusTable = document.selectFirst("#status-table");
+        Elements trs = statusTable.select("tr");
+        Elements tds = trs.last().select("td");
+        return Long.parseLong(tds.get(0).text());
+    }
+
     // 우리학교가 푼 문제 수 parsing
     public Long getSolvedCount(Long schoolId) throws Exception {
         String uri = "https://www.acmicpc.net/ranklist/school";

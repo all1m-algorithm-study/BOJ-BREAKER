@@ -40,6 +40,19 @@ public class CrawlerTest {
     }
 
     @Test
+    public void 특정_학교_최근채점번호_크롤링() throws Exception {
+        //given
+        Long schoolId = 302L;
+
+        //when
+        Long submitId = crawler.getLastCrawledSubmitId(schoolId);
+
+        //then
+        System.out.println(submitId);
+        assertThat(submitId).isGreaterThan(0);
+    }
+
+    @Test
     public void 특정_학교_푼_문제수_크롤링() throws Exception {
         //given
         Long schoolId = 302L;

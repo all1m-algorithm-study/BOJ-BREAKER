@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @NoArgsConstructor
@@ -15,10 +15,6 @@ import java.util.List;
 public class Problem {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false)
     private Long problemId;            //문제 번호
 
     @Column(nullable = false)
@@ -32,7 +28,7 @@ public class Problem {
     private double avgTries;    // 평균 시도 횟수
 
     @OneToMany(mappedBy = "problem")
-    private List<Solved> solvedList = new ArrayList<>();
+    private Set<Solved> solvedSet = new HashSet<>();
 
     @Builder
     public Problem(Long problemId, String title, SolvedAcTier tier, Long acTries, double avgTries) {

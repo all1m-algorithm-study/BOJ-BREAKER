@@ -1,13 +1,14 @@
 package ddbreaker.bojbreaker.domain.school;
 
+import ddbreaker.bojbreaker.domain.problem.Problem;
 import ddbreaker.bojbreaker.domain.solved.Solved;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @NoArgsConstructor
@@ -15,10 +16,6 @@ import java.util.List;
 public class School {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false)
     private Long schoolId;      // 학교 번호
 
     @Column(nullable = false)
@@ -27,11 +24,16 @@ public class School {
     private Long lastCrawledSubmitId;       // 마지막 채점 번호
 
     @OneToMany(mappedBy = "school")
-    private List<Solved> solvedList = new ArrayList<>();
+    private Set<Solved> solvedSet = new HashSet<>();
 
     @Builder
     public School(Long schoolId, Long solvedCount, Long lastCrawledSubmitId) {
         this.schoolId = schoolId;
+        this.solvedCount = solvedCount;
+        this.lastCrawledSubmitId = lastCrawledSubmitId;
+    }
+
+    public void update(Long solvedCount, Long lastCrawledSubmitId) {
         this.solvedCount = solvedCount;
         this.lastCrawledSubmitId = lastCrawledSubmitId;
     }
