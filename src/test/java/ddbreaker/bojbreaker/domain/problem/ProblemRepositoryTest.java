@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -45,10 +46,10 @@ public class ProblemRepositoryTest {
                         .build());
 
         //when
-        List<Problem> problemList = problemRepository.findAll();
+        Optional<Problem> p = problemRepository.findByProblemId(problemId);
 
         //then
-        Problem problem = problemList.get(0);
+        Problem problem = p.get();
         assertThat(problem.getProblemId()).isEqualTo(problemId);
         assertThat(problem.getTitle()).isEqualTo(title);
         assertThat(problem.getTier()).isEqualTo(tier);
