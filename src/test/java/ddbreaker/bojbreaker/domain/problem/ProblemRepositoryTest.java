@@ -55,5 +55,6 @@ public class ProblemRepositoryTest {
         assertThat(problem.getTier()).isEqualTo(tier);
         assertThat(problem.getAcTries()).isEqualTo(acTries);
         assertThat(problem.getAvgTries()).isEqualTo(avgTries);
+        System.out.println(problem.getId());
     }
 }
