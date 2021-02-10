@@ -26,9 +26,14 @@ public class SolvedRepositoryTest {
     SchoolRepository schoolRepository;
 
     @Autowired
-    public SolvedRepositoryTest(SolvedRepository solvedRepository) {
+    public SolvedRepositoryTest(SolvedRepository solvedRepository, ProblemRepository problemRepository, SchoolRepository schoolRepository) {
         this.solvedRepository = solvedRepository;
+        this.problemRepository = problemRepository;
+        this.schoolRepository = schoolRepository;
     }
+
+
+
 
     @AfterEach
     public void cleanup() {
@@ -59,7 +64,8 @@ public class SolvedRepositoryTest {
                 .solvedCount(solvedCount)
                 .lastCrawledSubmitId(lastCrawledSubmitId)
                 .build();
-
+        problemRepository.save(problem);
+        schoolRepository.save(school);
         solvedRepository.save(Solved.builder()
         .problem(problem)
         .school(school)
@@ -69,10 +75,15 @@ public class SolvedRepositoryTest {
 
         //when
         Solved solved = solvedRepository.findByProblemIdAndSchoolId(problemId, schoolId);
+        Solved maybeNull = solvedRepository.findByProblemIdAndSchoolId(problemId, 301L);
 
         //then
         assertThat(solved.getProblem().getProblemId()).isEqualTo(problemId);
         assertThat(solved.getProblem().getTitle()).isEqualTo(title);
         assertThat(solved.getSchool().getSchoolId()).isEqualTo(schoolId);
+        assertThat(maybeNull).isEqualTo(null);
+        System.out.println(solved.getProblem().getProblemId() +
+                " " + solved.getSolvedUser() +
+                " " + solved.getSchool().getSchoolId());
     }
 }

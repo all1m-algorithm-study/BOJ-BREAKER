@@ -11,7 +11,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
+@NoArgsConstructor
 @Entity
 public class Solved {
 
