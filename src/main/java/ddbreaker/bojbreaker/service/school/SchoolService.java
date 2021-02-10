@@ -2,13 +2,14 @@ package ddbreaker.bojbreaker.service.school;
 
 import ddbreaker.bojbreaker.domain.school.School;
 import ddbreaker.bojbreaker.domain.school.SchoolRepository;
+import ddbreaker.bojbreaker.domain.solved.Solved;
 import ddbreaker.bojbreaker.service.Crawler;
 import ddbreaker.bojbreaker.service.dto.Submit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -23,8 +24,8 @@ public class SchoolService {
         // Entity 생성
         School school = School.builder()
                 .schoolId(schoolId)
-                .lastCrawledSubmitId(0L)
-                .solvedCount(0L)
+                .lastCrawledSubmitId(crawler.getLastCrawledSubmitId(schoolId))
+                .solvedCount(crawler.getSolvedCount(schoolId))
                 .build();
         schoolRepository.save(school);
         updateAllSolved(schoolId);
@@ -47,11 +48,15 @@ public class SchoolService {
         return schoolId;
     }
 
-    public void updateAllSolved(Long schoolId) {
+    public void updateAllSolved(Long schoolId) throws Exception {
         School school = schoolRepository.findBySchoolId(schoolId)
                 .orElseThrow(() -> new IllegalArgumentException("[Id:" + schoolId + "] Id에 해당하는 학교가 없습니다."));
 
         // 1. 전체 풀린 문제를 파싱
+        List<Long> schoolSolvedList = crawler.getSchoolSolvedList(schoolId);
+        // Set<Long> schoolSolvedSet = new HashSet<>(schoolSolvedList);
+        // Map<Long, Solved> newSolvedMap = new HashMap<>();
+
         // 2. 전체 풀린 문제들을 순회하면서
         //      solvedList를 보고 변경사항을 파악 - 없어졌으면 제거 / 새로 생겼으면 추가
         // 3. school의 solvedCount와 lastCrawledSubmitId를 갱신
