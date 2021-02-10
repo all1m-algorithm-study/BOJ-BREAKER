@@ -34,7 +34,7 @@ public class SchoolService {
     // 학교의 모든 attribute를 최신화
     @Transactional
     public Long update(Long schoolId) throws Exception{
-        School school = schoolRepository.findById(schoolId)
+        School school = schoolRepository.findBySchoolId(schoolId)
                 .orElseThrow(() -> new IllegalArgumentException("[Id:" + schoolId + "] Id에 해당하는 학교가 없습니다."));
         Long beforeSolvedCount = school.getSolvedCount();
         Long nowSolvedCount = crawler.getSolvedCount(schoolId);
@@ -48,7 +48,7 @@ public class SchoolService {
     }
 
     public void updateAllSolved(Long schoolId) {
-        School school = schoolRepository.findById(schoolId)
+        School school = schoolRepository.findBySchoolId(schoolId)
                 .orElseThrow(() -> new IllegalArgumentException("[Id:" + schoolId + "] Id에 해당하는 학교가 없습니다."));
 
         // 1. 전체 풀린 문제를 파싱

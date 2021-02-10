@@ -16,6 +16,10 @@ import java.util.Set;
 public class School {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
     private Long schoolId;      // 학교 번호
 
     @Column(nullable = false)
