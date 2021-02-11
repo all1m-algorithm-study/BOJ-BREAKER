@@ -86,8 +86,8 @@ public class Crawler {
         return -1L;
     }
 
-    public List<Long> getSchoolSolvedList(Long schoolId) throws Exception {
-        Set<Long> solvedSet = new TreeSet<>();
+    public Set<Long> getSchoolSolvedProblemIdSet(Long schoolId) throws Exception {
+        Set<Long> solvedSet = new HashSet<>();
         List<String> schoolUserList = getSchoolUserList(schoolId);
         String uri = "https://www.acmicpc.net/user/";
         for (String schoolUser : schoolUserList) {
@@ -101,7 +101,7 @@ public class Crawler {
             solvedSet.addAll(problemIds);
             Thread.sleep(300);
         }
-        return new ArrayList<>(solvedSet);
+        return solvedSet;
     }
 
     public List<String> getSchoolUserList(Long schoolId) throws Exception {

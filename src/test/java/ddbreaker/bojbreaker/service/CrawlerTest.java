@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -71,7 +72,7 @@ public class CrawlerTest {
         Long schoolId = 766L;
 
         //when
-        List<Long> schoolSolvedList = crawler.getSchoolSolvedList(schoolId);
+        Set<Long> schoolSolvedList = crawler.getSchoolSolvedProblemIdSet(schoolId);
 
         //then
         System.out.println(schoolSolvedList.size());
