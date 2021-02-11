@@ -3,15 +3,16 @@ package ddbreaker.bojbreaker.domain.solved;
 import ddbreaker.bojbreaker.domain.problem.Problem;
 import ddbreaker.bojbreaker.domain.school.School;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = {"id", "solvedUser", "solvedDate"})
 @Entity
 public class Solved {
 
@@ -20,14 +21,14 @@ public class Solved {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "problem_id")
+    @JoinColumn(name = "PROBLEM_ID")
     private Problem problem;
 
     @ManyToOne
-    @JoinColumn(name = "school_id")
+    @JoinColumn(name = "SCHOOL_ID")
     private School school;
 
-    private String solvedUser;      // 푼 유저 아이디
+    private String solvedUser;              // 푼 유저 아이디
     private LocalDateTime solvedDate;       // 푼 시간
 
     @Builder

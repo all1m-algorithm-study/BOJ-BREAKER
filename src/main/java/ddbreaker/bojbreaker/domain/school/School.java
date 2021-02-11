@@ -1,6 +1,5 @@
 package ddbreaker.bojbreaker.domain.school;
 
-import ddbreaker.bojbreaker.domain.problem.Problem;
 import ddbreaker.bojbreaker.domain.solved.Solved;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,12 +19,13 @@ public class School {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private Long schoolId;      // 학교 번호
+    private Long schoolId;              // 학교 번호
 
     @Column(nullable = false)
-    private Long solvedCount;       // 푼 문제 수
+    private Long solvedCount;           // 푼 문제 수
 
-    private Long lastCrawledSubmitId;       // 마지막 채점 번호
+    @Column(nullable = false)
+    private Long lastCrawledSubmitId;   // 마지막 채점 번호
 
     @OneToMany(mappedBy = "school")
     private Set<Solved> solvedSet = new HashSet<>();
