@@ -1,0 +1,30 @@
+{{>layout/header}}
+
+<h1>Unsolved Problems</h1>
+<h2>school-id = {{school.schoolId}}</h2>
+<div class="unsolved-problems">
+    <table class="table">
+        <thead class="thead">
+        <tr>
+            <th>번호</th>
+            <th>이름</th>
+            <th>티어</th>
+            <th>맞은 사람</th>
+            <th>평균 시도 횟수</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+        {{#unsolved}}
+            <tr>
+                <td>{{problemId}}</td>
+                <td><a href="https://www.boj.kr/{{problemId}}">{{title}}</a></td>
+                <td>{{tier.title}}</td>
+                <td>{{acTries}}</td>
+                <td>{{avgTries}}</td>
+            </tr>
+        {{/unsolved}}
+        </tbody>
+    </table>
+</div>
+
+{{>layout/footer}}

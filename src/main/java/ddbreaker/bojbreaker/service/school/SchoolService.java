@@ -8,12 +8,16 @@ import ddbreaker.bojbreaker.domain.school.SchoolRepository;
 import ddbreaker.bojbreaker.domain.solved.Solved;
 import ddbreaker.bojbreaker.domain.solved.SolvedRepository;
 import ddbreaker.bojbreaker.service.Crawler;
+import ddbreaker.bojbreaker.service.dto.SolvedComparisonDto;
 import ddbreaker.bojbreaker.service.dto.Submit;
+import ddbreaker.bojbreaker.web.dto.ProblemListResponseDto;
+import ddbreaker.bojbreaker.web.dto.SchoolResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -109,5 +113,31 @@ public class SchoolService {
         }
         // 푼 문제수, 마지막 재출번호 최신화
         school.update(crawler.getSolvedCount(schoolId),crawler.getLastCrawledSubmitId(schoolId));
+    }
+
+    @Transactional
+    public List<ProblemListResponseDto> findUnsolvedProblems(Long schoolId) {
+        School school = schoolRepository.findBySchoolId(schoolId)
+                .orElseThrow(() -> new IllegalArgumentException("알 수 없는 학교 번호입니다. school_id="+schoolId));
+        Set<Solved> solvedSet = school.getSolvedSet();
+        return problemRepository.findAll().stream()
+                .filter(problem -> !solvedSet.contains(SolvedComparisonDto.builder()
+                                                                    .problem(problem)
+                                                                    .school(school)
+                                                                    .build()))
+                .map(entity -> new ProblemListResponseDto(
+                        entity.getProblemId(),
+                        entity.getTitle(),
+                        entity.getTier(),
+                        entity.getAcTries(),
+                        entity.getAvgTries())
+                ).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public SchoolResponseDto findBySchoolId(Long schoolId) {
+        School entity = schoolRepository.findBySchoolId(schoolId)
+                .orElseThrow(() -> new IllegalArgumentException("알 수 없는 학교 번호입니다. school_id="+schoolId));
+        return new SchoolResponseDto(entity);
     }
 }
