@@ -14,7 +14,7 @@ import java.util.Set;
 @Entity
 public class Problem {
 
-    @Id
+    @Id @Column(name = "PROBLEM_PK")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
