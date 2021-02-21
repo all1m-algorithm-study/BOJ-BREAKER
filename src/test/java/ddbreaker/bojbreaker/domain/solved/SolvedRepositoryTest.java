@@ -95,12 +95,13 @@ public class SolvedRepositoryTest {
 
         // then3 : Solved -> Problem / Solved -> School 참조 여부
         // findByProblemIdAndSchoolId에서 에러난다.
-//        Solved solved1 = solvedRepository.findByProblemIdAndSchoolId(problemId, schoolId);
-//        assertThat(solved1.getProblem().getProblemId()).isEqualTo(problemId);
-//        assertThat(solved1.getProblem().getTitle()).isEqualTo(title);
-//        assertThat(solved1.getSchool().getSchoolId()).isEqualTo(schoolId);
-//        assertThat(solved1.getSolvedDate()).isEqualTo(time);
-//        assertThat(solved1.getSolvedUser()).isEqualTo(user);
+        Solved solved1 = solvedRepository.findByProblemIdAndSchoolId(problemId, schoolId);
+        assertThat(solved1.getProblem().getProblemId()).isEqualTo(problemId);
+        assertThat(solved1.getProblem().getTitle()).isEqualTo(title);
+        assertThat(solved1.getSchool().getSchoolId()).isEqualTo(schoolId);
+        System.out.println(solved1.getSchool().getSchoolId() + " " + schoolId);
+        assertThat(solved1.getSolvedDate()).isEqualTo(time);
+        assertThat(solved1.getSolvedUser()).isEqualTo(user);
 
         // then4 : dummy Solved 객체의 포함 여부
         // Solved.java 15번째 줄 참고 (@EqualsAndHashCode(exclude = {"id", "solvedUser", "solvedDate"}))
