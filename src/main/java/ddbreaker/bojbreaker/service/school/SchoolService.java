@@ -2,13 +2,11 @@ package ddbreaker.bojbreaker.service.school;
 
 import ddbreaker.bojbreaker.domain.problem.Problem;
 import ddbreaker.bojbreaker.domain.problem.ProblemRepository;
-import ddbreaker.bojbreaker.domain.problem.SolvedAcTier;
 import ddbreaker.bojbreaker.domain.school.School;
 import ddbreaker.bojbreaker.domain.school.SchoolRepository;
 import ddbreaker.bojbreaker.domain.solved.Solved;
 import ddbreaker.bojbreaker.domain.solved.SolvedRepository;
 import ddbreaker.bojbreaker.service.Crawler;
-import ddbreaker.bojbreaker.service.dto.SolvedComparisonDto;
 import ddbreaker.bojbreaker.service.dto.Submit;
 import ddbreaker.bojbreaker.web.dto.ProblemListResponseDto;
 import ddbreaker.bojbreaker.web.dto.SchoolResponseDto;
