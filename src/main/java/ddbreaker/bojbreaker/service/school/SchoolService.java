@@ -121,10 +121,10 @@ public class SchoolService {
                 .orElseThrow(() -> new IllegalArgumentException("알 수 없는 학교 번호입니다. school_id="+schoolId));
         Set<Solved> solvedSet = school.getSolvedSet();
         return problemRepository.findAll().stream()
-                .filter(problem -> !solvedSet.contains(SolvedComparisonDto.builder()
-                                                                    .problem(problem)
-                                                                    .school(school)
-                                                                    .build()))
+                .filter(problem -> !solvedSet.contains(Solved.builder()
+                                                            .problem(problem)
+                                                            .school(school)
+                                                            .build()))
                 .map(entity -> new ProblemListResponseDto(
                         entity.getProblemId(),
                         entity.getTitle(),
