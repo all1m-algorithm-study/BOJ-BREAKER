@@ -6,19 +6,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Getter
 @NoArgsConstructor
 @Entity
-public class Problem {
+public class Problem implements Serializable {
 
-    @Id @Column(name = "PROBLEM_PK")
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name="problem_id", nullable = false, unique = true)
     private Long problemId;     //문제 번호
 
     @Column(nullable = false)

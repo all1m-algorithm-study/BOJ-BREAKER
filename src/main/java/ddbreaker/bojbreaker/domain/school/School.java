@@ -6,19 +6,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Getter
 @NoArgsConstructor
 @Entity
-public class School {
+public class School implements Serializable {
 
-    @Id @Column(name = "SCHOOL_PK")
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name="school_id", nullable = false, unique = true)
     private Long schoolId;              // 학교 번호
 
     @Column(nullable = false)

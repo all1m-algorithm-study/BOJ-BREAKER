@@ -21,11 +21,11 @@ public class Solved {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "PROBLEM_PK")
+    @JoinColumn(name = "problem_id", referencedColumnName = "problem_id")
     private Problem problem;
 
     @ManyToOne
-    @JoinColumn(name = "SCHOOL_PK")
+    @JoinColumn(name = "school_id", referencedColumnName = "school_id")
     private School school;
 
     private String solvedUser;              // 푼 유저 아이디
