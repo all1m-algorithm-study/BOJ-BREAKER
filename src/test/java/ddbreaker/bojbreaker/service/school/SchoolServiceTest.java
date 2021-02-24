@@ -9,6 +9,8 @@ import ddbreaker.bojbreaker.domain.solved.Solved;
 import ddbreaker.bojbreaker.domain.solved.SolvedRepository;
 import ddbreaker.bojbreaker.service.Crawler;
 import ddbreaker.bojbreaker.service.problem.ProblemService;
+import ddbreaker.bojbreaker.web.dto.ProblemListRequestDto;
+import ddbreaker.bojbreaker.web.dto.ProblemResponseDto;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -78,6 +82,32 @@ class SchoolServiceTest {
         }
     }
 
+    @Test
+    @Transactional
+    public void 안푼_문제_조회_쿼리_테스트() {
+        //given
+        List<String> tierFilter = List.of("BRONZE2");
+        ProblemListRequestDto requestDto = ProblemListRequestDto.builder()
+                .schoolId(302L)
+                .tierFilter(tierFilter)
+                .direction("desc")
+                .page(1000)
+                .sortedBy("")
+                .build();
+
+        //when
+        List<ProblemResponseDto> unsolvedProblems = schoolService.findUnsolvedProblems(requestDto);
+
+        //then
+        assertThat(unsolvedProblems.size()).isGreaterThan(0);
+        System.out.println(unsolvedProblems.size());
+        for(ProblemResponseDto dto: unsolvedProblems)
+            System.out.println(dto.getProblemId() + " " +
+                                    dto.getTitle() + " " +
+                                    dto.getTier() + " " +
+                                    dto.getAcTries() + " " +
+                                    dto.getAvgTries());
+    }
     public void 학교_새로_맞은문제_갱신() {
 
     }

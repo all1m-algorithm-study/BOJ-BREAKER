@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Getter
@@ -22,7 +23,14 @@ public class ProblemListRequestDto {
     public ProblemListRequestDto(Long schoolId, List<String> tierFilter, String sortedBy, String direction, int page) {
         this.schoolId = schoolId;
         this.tierFilter = tierFilter.stream()
-                .map(tier -> SolvedAcTier.valueOf(tier))
+                .map(tier -> {
+                    try {
+                        return SolvedAcTier.valueOf(tier);
+                    } catch(Exception e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }).filter(Objects::nonNull)
                 .collect(Collectors.toList());
         this.sortedBy = sortedBy;
         this.direction = direction;

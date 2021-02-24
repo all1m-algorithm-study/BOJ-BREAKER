@@ -98,9 +98,8 @@ public class SchoolService {
         // 재채점으로 맞은 문제 추가
         for (Long schoolSolvedProblemId : schoolSolvedProblemIdSet) {
             Optional<Problem> problem = problemRepository.findByProblemId(schoolSolvedProblemId);
-            if (problem.isEmpty()) {
+            if (problem.isEmpty())
                 continue;
-            }
             Solved solved = Solved.builder()
                     .problem(problem.get())
                     .school(school)
@@ -179,8 +178,10 @@ public class SchoolService {
             return problems.subList(0, Integer.min(99, problems.size()));
         else if(requestDto.getPage() < lastPage)
             return problems.subList(100*(requestDto.getPage()-1), 100*requestDto.getPage());
+        else if(requestDto.getPage() == lastPage)
+            return problems.subList(100*(lastPage-1), problems.size());
         else
-            return problems.subList(100*(requestDto.getPage()-1), problems.size());
+            return new ArrayList<ProblemResponseDto>();
     }
 
     @Transactional(readOnly = true)
