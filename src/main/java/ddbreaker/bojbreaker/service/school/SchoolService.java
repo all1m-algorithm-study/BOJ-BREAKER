@@ -33,6 +33,7 @@ public class SchoolService {
         // Entity 생성
         School school = School.builder()
                 .schoolId(schoolId)
+                .schoolName(crawler.getSchoolName(schoolId))
                 .lastCrawledSubmitId(0L)
                 .solvedCount(0L)
                 .build();
