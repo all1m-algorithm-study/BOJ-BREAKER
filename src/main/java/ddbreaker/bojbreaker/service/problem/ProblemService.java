@@ -5,7 +5,8 @@ import ddbreaker.bojbreaker.domain.problem.ProblemRepository;
 import ddbreaker.bojbreaker.domain.problem.SolvedAcTier;
 import ddbreaker.bojbreaker.service.Crawler;
 import ddbreaker.bojbreaker.service.dto.ProblemParseDto;
-import ddbreaker.bojbreaker.web.dto.ProblemListResponseDto;
+import ddbreaker.bojbreaker.web.dto.ProblemListRequestDto;
+import ddbreaker.bojbreaker.web.dto.ProblemResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,9 +53,9 @@ public class ProblemService {
     }
 
     @Transactional(readOnly = true)
-    public List<ProblemListResponseDto> findAll() {
+    public List<ProblemResponseDto> findAll() {
         return problemRepository.findAll().stream()
-                .map(entity -> new ProblemListResponseDto(
+                .map(entity -> new ProblemResponseDto(
                         entity.getProblemId(),
                         entity.getTitle(),
                         entity.getTier(),
@@ -62,4 +63,6 @@ public class ProblemService {
                         entity.getAvgTries())
                 ).collect(Collectors.toList());
     }
+
+
 }

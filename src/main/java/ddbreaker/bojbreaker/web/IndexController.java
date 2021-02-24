@@ -2,7 +2,7 @@ package ddbreaker.bojbreaker.web;
 
 import ddbreaker.bojbreaker.service.problem.ProblemService;
 import ddbreaker.bojbreaker.service.school.SchoolService;
-import ddbreaker.bojbreaker.web.dto.ProblemListResponseDto;
+import ddbreaker.bojbreaker.web.dto.ProblemResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,7 +29,7 @@ public class IndexController {
     @GetMapping("/unsolved/{schoolId}")
     public String unsolved(@PathVariable Long schoolId, Model model) {
         model.addAttribute("school", schoolService.findBySchoolId(schoolId));
-        List<ProblemListResponseDto> unsolved = schoolService.findUnsolvedProblems(schoolId);
+        List<ProblemResponseDto> unsolved = schoolService.findUnsolvedProblems(schoolId);
         model.addAttribute("unsolvedSz", unsolved.size());
         model.addAttribute("unsolved", unsolved);
         return "unsolved";
