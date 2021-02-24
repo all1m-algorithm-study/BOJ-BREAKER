@@ -67,6 +67,20 @@ public class CrawlerTest {
     }
 
     @Test
+    public void 특정_학교_이름_크롤링() throws Exception {
+        //given
+        Long schoolId = 302L;
+        String schoolName = "서울시립대학교";
+
+        //when
+        String schoolName1 = crawler.getSchoolName(schoolId);
+
+        //then
+        assertThat(schoolName1.length()).isGreaterThan(0);
+        assertThat(schoolName1).isEqualTo(schoolName);
+    }
+
+    @Test
     public void 특정_학교_푼_문제목록_크롤링() throws Exception {
         //given
         Long schoolId = 766L;

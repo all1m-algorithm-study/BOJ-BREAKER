@@ -86,6 +86,22 @@ public class Crawler {
         return -1L;
     }
 
+    // 우리학교 이름 parsing
+    public String getSchoolName(Long schoolId) throws Exception {
+        String uri = "https://www.acmicpc.net/ranklist/school";
+        Document document = Jsoup.connect(uri).get();
+        Element rankList = document.selectFirst("#ranklist");
+        Elements trs = rankList.select("tr");
+        for (int i = 1; i < trs.size(); i++) {
+            Elements tds = trs.get(i).select("td");
+            Element link = tds.get(1).selectFirst("a[href]");
+            if (link.attr("href").equals(String.format("/school/ranklist/%d", schoolId))) {
+                return link.text();
+            }
+        }
+        return "";
+    }
+
     public Set<Long> getSchoolSolvedProblemIdSet(Long schoolId) throws Exception {
         Set<Long> solvedSet = new HashSet<>();
         List<String> schoolUserList = getSchoolUserList(schoolId);

@@ -23,6 +23,9 @@ public class School implements Serializable {
     private Long schoolId;              // 학교 번호
 
     @Column(nullable = false)
+    String schoolName;
+
+    @Column(nullable = false)
     private Long solvedCount;           // 푼 문제 수
 
     @Column(nullable = false)
@@ -32,8 +35,9 @@ public class School implements Serializable {
     private Set<Solved> solvedSet = new HashSet<>();
 
     @Builder
-    public School(Long schoolId, Long solvedCount, Long lastCrawledSubmitId) {
+    public School(Long schoolId, String schoolName, Long solvedCount, Long lastCrawledSubmitId) {
         this.schoolId = schoolId;
+        this.schoolName = schoolName;
         this.solvedCount = solvedCount;
         this.lastCrawledSubmitId = lastCrawledSubmitId;
     }
