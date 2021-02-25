@@ -13,15 +13,13 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class ProblemListRequestDto {
 
-    private Long schoolId;
     private List<SolvedAcTier> tierFilter;
     private String sortedBy;
     private String direction;
     private int page;
 
     @Builder
-    public ProblemListRequestDto(Long schoolId, List<String> tierFilter, String sortedBy, String direction, int page) {
-        this.schoolId = schoolId;
+    public ProblemListRequestDto(List<String> tierFilter, String sortedBy, String direction, int page) {
         this.tierFilter = tierFilter.stream()
                 .map(tier -> {
                     try {

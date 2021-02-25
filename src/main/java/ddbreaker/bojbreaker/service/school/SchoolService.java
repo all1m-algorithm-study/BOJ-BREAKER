@@ -134,9 +134,9 @@ public class SchoolService {
     }
 
     @Transactional(readOnly = true)
-    public List<ProblemResponseDto> findUnsolvedProblems(ProblemListRequestDto requestDto) {
-        School school = schoolRepository.findBySchoolId(requestDto.getSchoolId())
-                .orElseThrow(() -> new IllegalArgumentException("알 수 없는 학교 번호입니다. school_id="+requestDto.getSchoolId()));
+    public List<ProblemResponseDto> findUnsolvedProblems(Long schoolId, ProblemListRequestDto requestDto) {
+        School school = schoolRepository.findBySchoolId(schoolId)
+                .orElseThrow(() -> new IllegalArgumentException("알 수 없는 학교 번호입니다. school_id="+schoolId));
         Set<Solved> solvedSet = school.getSolvedSet();
 
         List<ProblemResponseDto> problems = problemRepository.findAll().stream()

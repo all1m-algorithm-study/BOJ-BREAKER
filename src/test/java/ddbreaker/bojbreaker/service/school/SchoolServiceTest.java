@@ -86,17 +86,17 @@ class SchoolServiceTest {
     @Transactional
     public void 안푼_문제_조회_쿼리_테스트() {
         //given
-        List<String> tierFilter = List.of("BRONZE2");
+        Long schoolId = 302L;
+        List<String> tierFilter = List.of("DIAMOND4");
         ProblemListRequestDto requestDto = ProblemListRequestDto.builder()
-                .schoolId(302L)
                 .tierFilter(tierFilter)
                 .direction("desc")
-                .page(1000)
+                .page(1)
                 .sortedBy("")
                 .build();
 
         //when
-        List<ProblemResponseDto> unsolvedProblems = schoolService.findUnsolvedProblems(requestDto);
+        List<ProblemResponseDto> unsolvedProblems = schoolService.findUnsolvedProblems(schoolId, requestDto);
 
         //then
         assertThat(unsolvedProblems.size()).isGreaterThan(0);
