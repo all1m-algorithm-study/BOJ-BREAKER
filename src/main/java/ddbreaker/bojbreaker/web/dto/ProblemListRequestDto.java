@@ -20,7 +20,6 @@ public class ProblemListRequestDto {
 
     @Builder
     public ProblemListRequestDto(List<String> tierFilter, String sortedBy, String direction, int page) {
-
         this.tierFilter = tierFilter.stream()
                 .map(tier -> {
                     try {

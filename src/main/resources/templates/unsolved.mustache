@@ -3,31 +3,73 @@
 <h1>Unsolved Problems</h1>
 <h2>of {{school.schoolName}}</h2>
 <span>총 <strong>{{unsolved.totalProblems}}</strong>개의 풀지 않은 문제가 있습니다.</span>
-
-<div class="problem-list">
-    <!--  문제 목록 출력 영역 -->
-    <table class="table table-horizontal table-bordered">
-        <thead class="thead-strong">
-        <tr>
-            <th>문제번호</th>
-            <th>제목</th>
-            <th>티어</th>
-            <th>맞은 사람</th>
-            <th>평균 시도 횟수</th>
-        </tr>
-        </thead>
-        <tbody id="tbody">
-        {{#unsolved.appearedProblems}}
+<br>
+<div class="col-md-12">
+    <!-- 조건 선택 영역 -->
+    <div class="col-md-8">
+        <form>
+            <div class="form-group">
+                <label for="sortedBy-select">정렬 기준</label>
+                <div id="sortedBy-select">
+                    <input type="radio" id="problemId" name="sortedBy" value="problemId">
+                    <label for="problemId">문제 번호</label>
+                    <input type="radio" id="tier" name="sortedBy" value="tier">
+                    <label for="tier">티어</label>
+                    <input type="radio" id="acTries" name="sortedBy" value="acTries">
+                    <label for="acTries">맞은 사람</label>
+                    <input type="radio" id="avgTries" name="sortedBy" value="avgTries">
+                    <label for="avgTries">평균 시도 횟수</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="direction-select">정렬 방향</label>
+                <div id="direction-select">
+                    <input type="radio" id="asc" name="direction" value="asc">
+                    <label for="asc">오름차순</label>
+                    <input type="radio" id="desc" name="direction" value="desc">
+                    <label for="desc">내림차순</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="tier-select">티어</label>
+                <div id="tier-select">
+                    {{#tiers}}
+                        <input type="checkbox" id={{name}} name="tierFilter" value={{name}}>
+                        <label for={{name}}>{{name}}</label>
+                    {{/tiers}}
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" id="btn-query">조건 적용</button>
+        </form>
+        <button type="button" class="btn btn-secondary" id="btn-prev">이전 페이지</button>
+        <button type="button" class="btn btn-secondary" id="btn-next">다음 페이지</button>
+    </div>
+    <br>
+    <div class="problem-list">
+        <!--  문제 목록 출력 영역 -->
+        <table class="table table-horizontal table-bordered">
+            <thead class="thead-strong">
             <tr>
-                <td>{{problemId}}</td>
-                <td><a href="https://www.boj.kr/{{problemId}}">{{title}}</a></td>
-                <td>{{tier.title}}</td>
-                <td>{{acTries}}</td>
-                <td>{{avgTries}}</td>
+                <th>문제 번호</th>
+                <th>제목</th>
+                <th>티어</th>
+                <th>맞은 사람</th>
+                <th>평균 시도 횟수</th>
             </tr>
-        {{/unsolved.appearedProblems}}
-        </tbody>
-    </table>
+            </thead>
+            <tbody id="tbody">
+            {{#unsolved.appearedProblems}}
+                <tr>
+                    <td>{{problemId}}</td>
+                    <td><a href="https://www.boj.kr/{{problemId}}">{{title}}</a></td>
+                    <td>{{tier.title}}</td>
+                    <td>{{acTries}}</td>
+                    <td>{{avgTries}}</td>
+                </tr>
+            {{/unsolved.appearedProblems}}
+            </tbody>
+        </table>
+    </div>
 </div>
 
 {{>layout/footer}}
