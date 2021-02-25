@@ -16,7 +16,7 @@ public class AppStartupRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-//        problemService.updateAllProblems(3);
-//        schoolService.register(302L);
+        problemService.updateAllProblems(3);
+        schoolService.register(302L);
     }
 }
