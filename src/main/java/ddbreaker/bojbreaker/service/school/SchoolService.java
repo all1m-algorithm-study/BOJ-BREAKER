@@ -9,6 +9,7 @@ import ddbreaker.bojbreaker.domain.solved.SolvedRepository;
 import ddbreaker.bojbreaker.service.Crawler;
 import ddbreaker.bojbreaker.service.dto.Submit;
 import ddbreaker.bojbreaker.web.dto.ProblemListRequestDto;
+import ddbreaker.bojbreaker.web.dto.ProblemListResponseDto;
 import ddbreaker.bojbreaker.web.dto.ProblemResponseDto;
 import ddbreaker.bojbreaker.web.dto.SchoolResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -134,7 +135,7 @@ public class SchoolService {
     }
 
     @Transactional(readOnly = true)
-    public List<ProblemResponseDto> findUnsolvedProblems(Long schoolId, ProblemListRequestDto requestDto) {
+    public ProblemListResponseDto findUnsolvedProblems(Long schoolId, ProblemListRequestDto requestDto) {
         School school = schoolRepository.findBySchoolId(schoolId)
                 .orElseThrow(() -> new IllegalArgumentException("알 수 없는 학교 번호입니다. school_id="+schoolId));
         Set<Solved> solvedSet = school.getSolvedSet();
@@ -174,14 +175,21 @@ public class SchoolService {
         else
             lastPage = problems.size() / 100;
 
+        List<ProblemResponseDto> appearedProblems;
         if(requestDto.getPage() < 1)
-            return problems.subList(0, Integer.min(99, problems.size()));
+            appearedProblems = problems.subList(0, Integer.min(99, problems.size()));
         else if(requestDto.getPage() < lastPage)
-            return problems.subList(100*(requestDto.getPage()-1), 100*requestDto.getPage());
+            appearedProblems = problems.subList(100*(requestDto.getPage()-1), 100*requestDto.getPage());
         else if(requestDto.getPage() == lastPage)
-            return problems.subList(100*(lastPage-1), problems.size());
+            appearedProblems = problems.subList(100*(lastPage-1), problems.size());
         else
-            return new ArrayList<ProblemResponseDto>();
+            appearedProblems = new ArrayList<ProblemResponseDto>();
+
+        return ProblemListResponseDto.builder()
+                .appearedProblems(appearedProblems)
+                .totalProblems(problems.size())
+                .totalPages(lastPage)
+                .build();
     }
 
     @Transactional(readOnly = true)

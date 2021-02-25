@@ -47,6 +47,7 @@ public class IndexController {
                                                             .direction(direction)
                                                             .page(page)
                                                             .build();
+        model.addAttribute("school", schoolService.findBySchoolId(schoolId));
         model.addAttribute("unsolvedProblems", schoolService.findUnsolvedProblems(schoolId, requestDto));
         return "unsolved";
     }

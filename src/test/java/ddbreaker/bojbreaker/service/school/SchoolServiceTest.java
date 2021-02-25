@@ -7,9 +7,8 @@ import ddbreaker.bojbreaker.domain.school.School;
 import ddbreaker.bojbreaker.domain.school.SchoolRepository;
 import ddbreaker.bojbreaker.domain.solved.Solved;
 import ddbreaker.bojbreaker.domain.solved.SolvedRepository;
-import ddbreaker.bojbreaker.service.Crawler;
-import ddbreaker.bojbreaker.service.problem.ProblemService;
 import ddbreaker.bojbreaker.web.dto.ProblemListRequestDto;
+import ddbreaker.bojbreaker.web.dto.ProblemListResponseDto;
 import ddbreaker.bojbreaker.web.dto.ProblemResponseDto;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -96,12 +95,14 @@ class SchoolServiceTest {
                 .build();
 
         //when
-        List<ProblemResponseDto> unsolvedProblems = schoolService.findUnsolvedProblems(schoolId, requestDto);
+        ProblemListResponseDto unsolvedProblems = schoolService.findUnsolvedProblems(schoolId, requestDto);
 
         //then
-        assertThat(unsolvedProblems.size()).isGreaterThan(0);
-        System.out.println(unsolvedProblems.size());
-        for(ProblemResponseDto dto: unsolvedProblems)
+        assertThat(unsolvedProblems.getAppearedProblems().size()).isGreaterThan(0);
+        System.out.println(unsolvedProblems.getAppearedProblems().size());
+        System.out.println(unsolvedProblems.getTotalProblems());
+        System.out.println(unsolvedProblems.getTotalPages());
+        for(ProblemResponseDto dto: unsolvedProblems.getAppearedProblems())
             System.out.println(dto.getProblemId() + " " +
                                     dto.getTitle() + " " +
                                     dto.getTier() + " " +
