@@ -29,12 +29,14 @@ public class SchoolRepositoyTest {
     public void 학교저장_불러오기() {
         // given
         Long schoolId = 302L;
+        String schoolName = "서울시립대학교";
         Long lastCrawledSubmitId = 3000L;
         Long solvedCount = 2000L;
 
         // when
         schoolRepository.save(School.builder()
                 .schoolId(schoolId)
+                .schoolName(schoolName)
                 .lastCrawledSubmitId(lastCrawledSubmitId)
                 .solvedCount(solvedCount)
                 .build());
@@ -42,6 +44,7 @@ public class SchoolRepositoyTest {
         // then
         School school = schoolRepository.findBySchoolId(schoolId)
                 .orElseThrow(() -> new IllegalArgumentException("[Id:" + schoolId + "] Id에 해당하는 학교가 없습니다."));
+        assertThat(school.getSchoolName()).isEqualTo(schoolName);
         assertThat(school.getSchoolId()).isEqualTo(schoolId);
         assertThat(school.getLastCrawledSubmitId()).isEqualTo(lastCrawledSubmitId);
         assertThat(school.getSolvedCount()).isEqualTo(solvedCount);
