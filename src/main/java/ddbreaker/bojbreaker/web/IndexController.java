@@ -39,16 +39,20 @@ public class IndexController {
         return "unsolved-test";
     }
 
-    @GetMapping("/api/v1/school/unsolved/{schoolId}")
-    public String findUnsolvedProblems(@PathVariable Long schoolId, @RequestParam String sortedBy,
-                                         @RequestParam String direction, @RequestParam int page, Model model) {
+    @GetMapping("/school/{schoolId}/unsolved")
+    public String findUnsolvedProblems(@PathVariable Long schoolId,
+                                       @RequestParam(required = false, defaultValue = "tier") String sortedBy,
+                                       @RequestParam(required = false, defaultValue = "asc") String direction,
+                                       @RequestParam(required = false, defaultValue = "1") int page,
+                                       Model model) {
         ProblemListRequestDto requestDto = ProblemListRequestDto.builder()
+                                                            .tierFilter(new ArrayList<>())  // 추후 수정 요함
                                                             .sortedBy(sortedBy)
                                                             .direction(direction)
                                                             .page(page)
                                                             .build();
         model.addAttribute("school", schoolService.findBySchoolId(schoolId));
-        model.addAttribute("unsolvedProblems", schoolService.findUnsolvedProblems(schoolId, requestDto));
+        model.addAttribute("unsolved", schoolService.findUnsolvedProblems(schoolId, requestDto));
         return "unsolved";
     }
 }
