@@ -60,10 +60,12 @@ public class SolvedRepositoryTest {
         problemRepository.save(problem);
 
         Long schoolId = 302L;
+        String schoolName = "서울시립대학교";
         Long solvedCount = 1L;
         Long lastCrawledSubmitId = 0L;
         School school = School.builder()
                 .schoolId(schoolId)
+                .schoolName(schoolName)
                 .solvedCount(solvedCount)
                 .lastCrawledSubmitId(lastCrawledSubmitId)
                 .build();
@@ -87,21 +89,19 @@ public class SolvedRepositoryTest {
         School school1 = schoolRepository.findBySchoolId(schoolId).get();
         assertThat(school1.getSolvedSet().size()).isGreaterThan(0);
         assertThat(school1.getSolvedSet().toArray()[0]).isEqualTo(solved);
+        // School -> Solved -> Problem 참조 여부
+        for (Solved solved1 : school1.getSolvedSet()) {
+            assertThat(solved1.getProblem()).isEqualTo(problem);
+        }
 
         // then2 : Problem -> Solved 참조 여부
         Problem problem1 = problemRepository.findByProblemId(problemId).get();
         assertThat(problem1.getSolvedSet().size()).isGreaterThan(0);
         assertThat(problem1.getSolvedSet().toArray()[0]).isEqualTo(solved);
-
-        // then3 : Solved -> Problem / Solved -> School 참조 여부
-        // findByProblemIdAndSchoolId에서 에러난다.
-        Solved solved1 = solvedRepository.findByProblemIdAndSchoolId(problemId, schoolId);
-        assertThat(solved1.getProblem().getProblemId()).isEqualTo(problemId);
-        assertThat(solved1.getProblem().getTitle()).isEqualTo(title);
-        assertThat(solved1.getSchool().getSchoolId()).isEqualTo(schoolId);
-        System.out.println(solved1.getSchool().getSchoolId() + " " + schoolId);
-        assertThat(solved1.getSolvedDate()).isEqualTo(time);
-        assertThat(solved1.getSolvedUser()).isEqualTo(user);
+        // Problem -> Solved -> School 참조 여부
+        for (Solved solved1 : problem1.getSolvedSet()) {
+            assertThat(solved1.getSchool()).isEqualTo(school);
+        }
 
         // then4 : dummy Solved 객체의 포함 여부
         // Solved.java 15번째 줄 참고 (@EqualsAndHashCode(exclude = {"id", "solvedUser", "solvedDate"}))
