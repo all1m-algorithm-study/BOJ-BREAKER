@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class CrawlerTest {
+
     Crawler crawler;
 
     @Autowired
@@ -28,14 +29,14 @@ public class CrawlerTest {
     public void 특정_학교_채점현황_크롤링() throws Exception {
         //given
         Long schoolId = 302L;
-        Long lastSubmitId = 26088286L;
+        Long lastSubmitId = crawler.getLastCrawledSubmitId(302L);
 
         //when
         List<Submit> submitList = crawler.getSubmitList(schoolId, lastSubmitId);
 
         //then
         for (Submit submit : submitList) {
-            System.out.println(submit.getSubmitId() + " " + submit.getUserId() + submit.getProblemId());
+            System.out.println(submit.getSubmitId() + " " + submit.getUserId() + " " + submit.getProblemId());
         }
         assertThat(submitList.size()).isGreaterThan(0);
     }
@@ -83,7 +84,7 @@ public class CrawlerTest {
     @Test
     public void 특정_학교_푼_문제목록_크롤링() throws Exception {
         //given
-        Long schoolId = 766L;
+        Long schoolId = 302L;
 
         //when
         Set<Long> schoolSolvedList = crawler.getSchoolSolvedProblemIdSet(schoolId);

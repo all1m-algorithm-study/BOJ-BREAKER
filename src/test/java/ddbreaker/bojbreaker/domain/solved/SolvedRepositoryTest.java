@@ -9,6 +9,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +22,8 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@DataJpaTest
 public class SolvedRepositoryTest {
 
     SolvedRepository solvedRepository;
@@ -71,7 +74,7 @@ public class SolvedRepositoryTest {
                 .build();
         schoolRepository.save(school);
 
-        LocalDateTime time = LocalDateTime.of(2021, 02, 10, 10, 10);
+        LocalDateTime time = LocalDateTime.of(2021, 2, 10, 10, 10);
         String user = "kir3i";
 
         // when
@@ -104,9 +107,6 @@ public class SolvedRepositoryTest {
         }
 
         // then4 : dummy Solved 객체의 포함 여부
-        // Solved.java 15번째 줄 참고 (@EqualsAndHashCode(exclude = {"id", "solvedUser", "solvedDate"}))
-        System.out.println("build dummy");
-        Thread.sleep(300);
         Solved solved_dummy = Solved.builder()
                 .problem(problem)
                 .school(school)

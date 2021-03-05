@@ -7,6 +7,7 @@ import ddbreaker.bojbreaker.domain.school.School;
 import ddbreaker.bojbreaker.domain.school.SchoolRepository;
 import ddbreaker.bojbreaker.domain.solved.Solved;
 import ddbreaker.bojbreaker.domain.solved.SolvedRepository;
+import ddbreaker.bojbreaker.service.Crawler;
 import ddbreaker.bojbreaker.web.dto.ProblemListRequestDto;
 import ddbreaker.bojbreaker.web.dto.ProblemListResponseDto;
 import ddbreaker.bojbreaker.web.dto.ProblemResponseDto;
@@ -19,6 +20,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -30,13 +32,15 @@ class SchoolServiceTest {
     ProblemRepository problemRepository;
     SchoolRepository schoolRepository;
     SchoolService schoolService;
+    Crawler crawler;
 
     @Autowired
-    public SchoolServiceTest(SolvedRepository solvedRepository, ProblemRepository problemRepository, SchoolRepository schoolRepository, SchoolService schoolService) {
+    public SchoolServiceTest(SolvedRepository solvedRepository, ProblemRepository problemRepository, SchoolRepository schoolRepository, SchoolService schoolService, Crawler crawler) {
         this.solvedRepository = solvedRepository;
         this.problemRepository = problemRepository;
         this.schoolRepository = schoolRepository;
         this.schoolService = schoolService;
+        this.crawler = crawler;
     }
 
     @AfterEach
@@ -49,7 +53,7 @@ class SchoolServiceTest {
 
     @Test
     @Transactional
-    public void 학교_등록() throws Exception{
+    public void 학교_등록() throws Exception {
         // given
         Long schoolId = 302L;
         for (Long i = 0L; i < 25000L; i++) {
@@ -84,9 +88,37 @@ class SchoolServiceTest {
     @Test
     @Transactional
     public void 안푼_문제_조회_쿼리_테스트() {
-        //given
+        // given
+        // problem
+        for (Long i = 0L; i < 2500L; i++) {
+            problemRepository.save(Problem.builder()
+                    .problemId(i)
+                    .title("dummy:" + i)
+                    .tier(SolvedAcTier.BRONZE5)
+                    .build());
+        }
+        // school
         Long schoolId = 302L;
-        List<String> tierFilter = List.of("DIAMOND4");
+        School school = School.builder()
+                .schoolId(schoolId)
+                .schoolName("서울시립대")
+                .lastCrawledSubmitId(0L)
+                .solvedCount(0L)
+                .build();
+        schoolRepository.save(school);
+        // solved
+        for (Long i = 0L; i < 500L; i++) {
+            Problem problem = problemRepository.findByProblemId(i).get();
+            Solved solved = Solved.builder()
+                    .problem(problem)
+                    .school(school)
+                    .build();
+            school.getSolvedSet().add(solved);
+            problem.getSolvedSet().add(solved);
+            solvedRepository.save(solved);
+        }
+        // filter
+        List<String> tierFilter = List.of("BRONZE5");
         ProblemListRequestDto requestDto = ProblemListRequestDto.builder()
                 .tierFilter(tierFilter)
                 .direction("desc")
@@ -99,8 +131,8 @@ class SchoolServiceTest {
 
         //then
         assertThat(unsolvedProblems.getAppearedProblems().size()).isGreaterThan(0);
+        assertThat(unsolvedProblems.getTotalProblems()).isEqualTo(2000);
         System.out.println(unsolvedProblems.getAppearedProblems().size());
-        System.out.println(unsolvedProblems.getTotalProblems());
         System.out.println(unsolvedProblems.getTotalPages());
         for(ProblemResponseDto dto: unsolvedProblems.getAppearedProblems())
             System.out.println(dto.getProblemId() + " " +
@@ -109,7 +141,9 @@ class SchoolServiceTest {
                                     dto.getAcTries() + " " +
                                     dto.getAvgTries());
     }
-    public void 학교_새로_맞은문제_갱신() {
+
+    @Test
+    public void 학교_새로_맞은문제_갱신() throws Exception {
 
     }
 }
