@@ -19,11 +19,11 @@ public class ProblemService {
     public List<ProblemResponseDto> findAll() {
         return problemRepository.findAll().stream()
                 .map(entity -> new ProblemResponseDto(
-                        entity.getProblemId(),
+                        entity.getCode(),
                         entity.getTitle(),
                         entity.getTier(),
-                        entity.getAcTries(),
-                        entity.getAvgTries())
+                        entity.getAcCnt(),
+                        entity.getAcRate())
                 ).collect(Collectors.toList());
     }
 

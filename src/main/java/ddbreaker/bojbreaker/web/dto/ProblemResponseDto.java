@@ -6,17 +6,17 @@ import lombok.Getter;
 @Getter
 public class ProblemResponseDto {
 
-    private Long problemId;
+    private Long code;
     private String title;
     private SolvedAcTier tier;
-    private Long acTries;
-    private double avgTries;
+    private Long acCnt;
+    private double acRate;
 
-    public ProblemResponseDto(Long problemId, String title, SolvedAcTier tier, Long acTries, double avgTries) {
-        this.problemId = problemId;
+    public ProblemResponseDto(Long code, String title, SolvedAcTier tier, Long acCnt, double acRate) {
+        this.code = code;
         this.title = title;
         this.tier = tier;
-        this.acTries = acTries;
-        this.avgTries = avgTries;
+        this.acCnt = acCnt;
+        this.acRate = acRate;
     }
 }

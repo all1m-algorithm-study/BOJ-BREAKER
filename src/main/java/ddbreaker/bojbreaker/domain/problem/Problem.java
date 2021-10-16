@@ -13,43 +13,46 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @Entity
+@Table(name = "problem")
 public class Problem implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="problem_id", nullable = false, unique = true)
-    private Long problemId;     //문제 번호
+    @Column(name="code", nullable = false, unique = true)
+    private Long code;          //문제 번호
 
-    @Column(nullable = false)
+    @Column(name = "title", nullable = false)
     private String title;       //문제 이름
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private SolvedAcTier tier;
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "tier", nullable = false)
+    private SolvedAcTier tier;  // solved.ac 티어
 
-    private Long acTries;       // 맞은 사람 수
-    private double avgTries;    // 평균 시도 횟수
+    @Column(name = "ac_cnt")
+    private Long acCnt;         // 맞은 사람 수
+
+    @Column(name = "ac_rate")
+    private double acRate;      // 평균 시도 횟수
 
     @OneToMany(mappedBy = "problem")
     private Set<Solved> solvedSet = new HashSet<>();
 
     @Builder
-    public Problem(Long problemId, String title, SolvedAcTier tier, Long acTries, double avgTries) {
-        this.problemId = problemId;
+    public Problem(Long code, String title, SolvedAcTier tier, Long acCnt, double acRate) {
+        this.code = code;
         this.title = title;
         this.tier = tier;
-        this.acTries = acTries;
-        this.avgTries = avgTries;
+        this.acCnt = acCnt;
+        this.acRate = acRate;
     }
 
-    public Problem update(String title, SolvedAcTier tier, Long acTries, double avgTries) {
+    public Problem update(String title, SolvedAcTier tier, Long acCnt, double acRate) {
         this.title = title;
         this.tier = tier;
-        this.acTries = acTries;
-        this.avgTries = avgTries;
-
+        this.acCnt = acCnt;
+        this.acRate = acRate;
         return this;
     }
 }
