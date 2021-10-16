@@ -7,44 +7,44 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum SolvedAcTier {
 
-    UNRATED("TIER_UNRATED", "Unrated"),
+    UNRATED(0, "Unrated"),
 
-    BRONZE5("TIER_BRONZE5", "Bronze V"),
-    BRONZE4("TIER_BRONZE4", "Bronze IV"),
-    BRONZE3("TIER_BRONZE3", "Bronze III"),
-    BRONZE2("TIER_BRONZE2", "Bronze II"),
-    BRONZE1("TIER_BRONZE1", "Bronze I"),
+    BRONZE5(1, "Bronze V"),
+    BRONZE4(2, "Bronze IV"),
+    BRONZE3(3, "Bronze III"),
+    BRONZE2(4, "Bronze II"),
+    BRONZE1(5, "Bronze I"),
 
-    SILVER5("TIER_SILVER5", "Silver V"),
-    SILVER4("TIER_SILVER4", "Silver IV"),
-    SILVER3("TIER_SILVER3", "Silver III"),
-    SILVER2("TIER_SILVER2", "Silver II"),
-    SILVER1("TIER_SILVER1", "Silver I"),
+    SILVER5(6, "Silver V"),
+    SILVER4(7, "Silver IV"),
+    SILVER3(8, "Silver III"),
+    SILVER2(9, "Silver II"),
+    SILVER1(10, "Silver I"),
 
-    GOLD5("TIER_GOLD5", "Gold V"),
-    GOLD4("TIER_GOLD4", "Gold IV"),
-    GOLD3("TIER_GOLD3", "Gold III"),
-    GOLD2("TIER_GOLD2", "Gold II"),
-    GOLD1("TIER_GOLD1", "Gold I"),
+    GOLD5(11, "Gold V"),
+    GOLD4(12, "Gold IV"),
+    GOLD3(13, "Gold III"),
+    GOLD2(14, "Gold II"),
+    GOLD1(15, "Gold I"),
 
-    PLATINUM5("TIER_PLATINUM5", "Platinum V"),
-    PLATINUM4("TIER_PLATINUM4", "Platinum IV"),
-    PLATINUM3("TIER_PLATINUM3", "Platinum III"),
-    PLATINUM2("TIER_PLATINUM2", "Platinum II"),
-    PLATINUM1("TIER_PLATINUM1", "Platinum I"),
+    PLATINUM5(16, "Platinum V"),
+    PLATINUM4(17, "Platinum IV"),
+    PLATINUM3(18, "Platinum III"),
+    PLATINUM2(19, "Platinum II"),
+    PLATINUM1(20, "Platinum I"),
 
-    DIAMOND5("TIER_DIAMOND5", "Diamond V"),
-    DIAMOND4("TIER_DIAMOND4", "Diamond IV"),
-    DIAMOND3("TIER_DIAMOND3", "Diamond III"),
-    DIAMOND2("TIER_DIAMOND2", "Diamond II"),
-    DIAMOND1("TIER_DIAMOND1", "Diamond I"),
+    DIAMOND5(21, "Diamond V"),
+    DIAMOND4(22, "Diamond IV"),
+    DIAMOND3(23, "Diamond III"),
+    DIAMOND2(24, "Diamond II"),
+    DIAMOND1(25, "Diamond I"),
 
-    RUBY5("TIER_RUBY5", "Ruby V"),
-    RUBY4("TIER_RUBY4", "Ruby IV"),
-    RUBY3("TIER_RUBY3", "Ruby III"),
-    RUBY2("TIER_RUBY2", "Ruby II"),
-    RUBY1("TIER_RUBY1", "Ruby I");
+    RUBY5(26, "Ruby V"),
+    RUBY4(27, "Ruby IV"),
+    RUBY3(28, "Ruby III"),
+    RUBY2(29, "Ruby II"),
+    RUBY1(30, "Ruby I");
 
-    private final String key;
+    private final int key;
     private final String title;
 }
