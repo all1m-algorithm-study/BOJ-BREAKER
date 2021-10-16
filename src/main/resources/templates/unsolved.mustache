@@ -1,7 +1,7 @@
 {{>layout/header}}
 
 <h1>Unsolved Problems</h1>
-<h2>of {{school.schoolName}}</h2>
+<h2>of {{group.name}}</h2>
 <span>총 <strong>{{unsolved.totalProblems}}</strong>개의 풀지 않은 문제가 있습니다.</span>
 <br>
 <div class="col-md-12">
@@ -60,11 +60,11 @@
             <tbody id="tbody">
             {{#unsolved.appearedProblems}}
                 <tr>
-                    <td>{{problemId}}</td>
-                    <td><a href="https://www.boj.kr/{{problemId}}">{{title}}</a></td>
+                    <td>{{code}}</td>
+                    <td><a href="https://www.boj.kr/{{code}}">{{title}}</a></td>
                     <td>{{tier.title}}</td>
-                    <td>{{acTries}}</td>
-                    <td>{{avgTries}}</td>
+                    <td>{{acCnt}}</td>
+                    <td>{{acRate}}</td>
                 </tr>
             {{/unsolved.appearedProblems}}
             </tbody>

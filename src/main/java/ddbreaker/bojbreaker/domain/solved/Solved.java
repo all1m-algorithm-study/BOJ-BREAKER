@@ -1,7 +1,7 @@
 package ddbreaker.bojbreaker.domain.solved;
 
 import ddbreaker.bojbreaker.domain.problem.Problem;
-import ddbreaker.bojbreaker.domain.school.School;
+import ddbreaker.bojbreaker.domain.group.Group;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -12,8 +12,9 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"id", "solvedUser", "solvedDate"})
+@EqualsAndHashCode(exclude = {"id", "solvedBy", "timestamp"})
 @Entity
+@Table(name = "solved")
 public class Solved {
 
     @Id
@@ -21,21 +22,24 @@ public class Solved {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "problem_id", referencedColumnName = "problem_id")
+    @JoinColumn(name = "problem_id")
     private Problem problem;
 
     @ManyToOne
-    @JoinColumn(name = "school_id", referencedColumnName = "school_id")
-    private School school;
+    @JoinColumn(name = "school_id")
+    private Group group;
 
-    private String solvedUser;              // 푼 유저 아이디
-    private LocalDateTime solvedDate;       // 푼 시간
+    @Column(name = "timestamp")
+    private LocalDateTime timestamp;    // 푼 시간
+
+    @Column(name = "solved_by")
+    private String solvedBy;            // 푼 유저 아이디
 
     @Builder
-    public Solved(Problem problem, School school, String solvedUser, LocalDateTime solvedDate) {
+    public Solved(Problem problem, Group group, String solvedBy, LocalDateTime timestamp) {
         this.problem = problem;
-        this.school = school;
-        this.solvedUser = solvedUser;
-        this.solvedDate = solvedDate;
+        this.group = group;
+        this.solvedBy = solvedBy;
+        this.timestamp = timestamp;
     }
 }

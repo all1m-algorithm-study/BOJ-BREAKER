@@ -8,7 +8,4 @@ import java.util.List;
 
 public interface SolvedRepository extends JpaRepository<Solved, Long> {
 
-    @Query("SELECT s FROM Solved s WHERE s.problem.problemId = ?1 and s.school.schoolId = ?2")
-    Solved findByProblemIdAndSchoolId(Long problemId, Long schoolId);
-
 }
