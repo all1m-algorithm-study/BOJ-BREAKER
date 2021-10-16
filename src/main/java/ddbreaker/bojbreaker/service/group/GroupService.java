@@ -1,13 +1,13 @@
-package ddbreaker.bojbreaker.service.school;
+package ddbreaker.bojbreaker.service.group;
 
 import ddbreaker.bojbreaker.domain.problem.ProblemRepository;
-import ddbreaker.bojbreaker.domain.school.School;
-import ddbreaker.bojbreaker.domain.school.SchoolRepository;
+import ddbreaker.bojbreaker.domain.group.Group;
+import ddbreaker.bojbreaker.domain.group.GroupRepository;
 import ddbreaker.bojbreaker.domain.solved.Solved;
 import ddbreaker.bojbreaker.web.dto.ProblemListRequestDto;
 import ddbreaker.bojbreaker.web.dto.ProblemListResponseDto;
 import ddbreaker.bojbreaker.web.dto.ProblemResponseDto;
-import ddbreaker.bojbreaker.web.dto.SchoolResponseDto;
+import ddbreaker.bojbreaker.web.dto.GroupResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,57 +17,57 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class SchoolService {
+public class GroupService {
 
-    private final SchoolRepository schoolRepository;
+    private final GroupRepository groupRepository;
     private final ProblemRepository problemRepository;
 
     @Transactional
-    public List<ProblemResponseDto> findUnsolvedProblems(Long schoolId) {
-        School school = schoolRepository.findBySchoolId(schoolId)
-                .orElseThrow(() -> new IllegalArgumentException("알 수 없는 학교 번호입니다. school_id="+schoolId));
-        Set<Solved> solvedSet = school.getSolvedSet();
+    public List<ProblemResponseDto> findUnsolvedProblems(Long groupCode) {
+        Group group = groupRepository.findByCode(groupCode)
+                .orElseThrow(() -> new IllegalArgumentException("알 수 없는 학교 번호입니다. school_id="+groupCode));
+        Set<Solved> solvedSet = group.getSolvedSet();
         return problemRepository.findAll().stream()
                 .filter(problem -> !solvedSet.contains(Solved.builder()
                                                             .problem(problem)
-                                                            .school(school)
+                                                            .group(group)
                                                             .build()))
                 .map(entity -> new ProblemResponseDto(
-                        entity.getProblemId(),
+                        entity.getCode(),
                         entity.getTitle(),
                         entity.getTier(),
-                        entity.getAcTries(),
-                        entity.getAvgTries())
+                        entity.getAcCnt(),
+                        entity.getAcRate())
                 ).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public ProblemListResponseDto findUnsolvedProblems(Long schoolId, ProblemListRequestDto requestDto) {
-        School school = schoolRepository.findBySchoolId(schoolId)
-                .orElseThrow(() -> new IllegalArgumentException("알 수 없는 학교 번호입니다. school_id="+schoolId));
-        Set<Solved> solvedSet = school.getSolvedSet();
+    public ProblemListResponseDto findUnsolvedProblems(Long groupCode, ProblemListRequestDto requestDto) {
+        Group group = groupRepository.findByCode(groupCode)
+                .orElseThrow(() -> new IllegalArgumentException("알 수 없는 그룹 번호입니다. group.code="+groupCode));
+        Set<Solved> solvedSet = group.getSolvedSet();
 
         List<ProblemResponseDto> problems = problemRepository.findAll().stream()
                 .filter(problem -> !solvedSet.contains(Solved.builder()
                         .problem(problem)
-                        .school(school)
+                        .group(group)
                         .build()))
                 .filter(problem -> requestDto.getTierFilter().isEmpty()
                         || requestDto.getTierFilter().contains(problem.getTier()))
                 .map(entity -> new ProblemResponseDto(
-                        entity.getProblemId(),
+                        entity.getCode(),
                         entity.getTitle(),
                         entity.getTier(),
-                        entity.getAcTries(),
-                        entity.getAvgTries())
+                        entity.getAcCnt(),
+                        entity.getAcRate())
                 ).sorted((a, b) -> {
                     switch (requestDto.getSortedBy()) {
                         case "problemId":
-                            return Long.compare(a.getProblemId(), b.getProblemId());
+                            return Long.compare(a.getCode(), b.getCode());
                         case "acTries":
-                            return Long.compare(a.getAcTries(), b.getAcTries());
+                            return Long.compare(a.getAcCnt(), b.getAcCnt());
                         case "avgTries":
-                            return Double.compare(a.getAvgTries(), b.getAvgTries());
+                            return Double.compare(a.getAcRate(), b.getAcRate());
                         default:
                             return Integer.compare(a.getTier().ordinal(), b.getTier().ordinal());
                     }
@@ -100,9 +100,9 @@ public class SchoolService {
     }
 
     @Transactional(readOnly = true)
-    public SchoolResponseDto findBySchoolId(Long schoolId) {
-        School entity = schoolRepository.findBySchoolId(schoolId)
-                .orElseThrow(() -> new IllegalArgumentException("알 수 없는 학교 번호입니다. school_id="+schoolId));
-        return new SchoolResponseDto(entity);
+    public GroupResponseDto findByGroupCode(Long groupCode) {
+        Group entity = groupRepository.findByCode(groupCode)
+                .orElseThrow(() -> new IllegalArgumentException("알 수 없는 그룹 번호입니다. group.code="+groupCode));
+        return new GroupResponseDto(entity);
     }
 }
