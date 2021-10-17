@@ -59,10 +59,10 @@ class GroupServiceTest {
                     .tier(SolvedAcTier.BRONZE5)
                     .build());
         }
-        // school
-        Long schoolId = 302L;
+        // group
+        Long groupCode = 302L;
         Group group = Group.builder()
-                .code(schoolId)
+                .code(groupCode)
                 .name("서울시립대")
                 .rank(40L)
                 .lastSubmitCode(0L)
@@ -90,7 +90,7 @@ class GroupServiceTest {
                 .build();
 
         //when
-        ProblemListResponseDto unsolvedProblems = groupService.findUnsolvedProblems(schoolId, requestDto);
+        ProblemListResponseDto unsolvedProblems = groupService.findUnsolvedProblems(groupCode, requestDto);
 
         //then
         assertThat(unsolvedProblems.getAppearedProblems().size()).isGreaterThan(0);

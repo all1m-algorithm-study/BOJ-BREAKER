@@ -26,7 +26,7 @@ public class IndexController {
     private final HttpSession httpSession;
 
     @GetMapping("/")
-    public String index(Model model) throws Exception {
+    public String index(Model model) {
         model.addAttribute("problems", problemService.findAll());
         return "index";
     }
@@ -50,7 +50,7 @@ public class IndexController {
         if(tierFilter == null)
             tierFilter = new ArrayList<>();
         ProblemListRequestDto requestDto = ProblemListRequestDto.builder()
-                                                            .tierFilter(tierFilter)  // 추후 수정 요함
+                                                            .tierFilter(tierFilter)
                                                             .sortedBy(sortedBy)
                                                             .direction(direction)
                                                             .page(page)

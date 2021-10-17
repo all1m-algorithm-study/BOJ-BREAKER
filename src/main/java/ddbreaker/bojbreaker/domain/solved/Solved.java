@@ -26,7 +26,7 @@ public class Solved {
     private Problem problem;
 
     @ManyToOne
-    @JoinColumn(name = "school_id")
+    @JoinColumn(name = "group_id")
     private Group group;
 
     @Column(name = "timestamp")
