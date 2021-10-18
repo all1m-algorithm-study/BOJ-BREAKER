@@ -1,13 +1,12 @@
 {{>layout/header}}
 
-<h1>Unsolved Problems</h1>
-<h2>of {{group.name}}</h2>
-<span>총 <strong>{{unsolved.totalProblems}}</strong>개의 풀지 않은 문제가 있습니다.</span>
 <br>
 <div class="col-md-12">
+    <h1>Unsolved Problems({{group.name}})</h1>
+    <span>총 <strong>{{unsolved.totalProblems}}</strong>개의 풀지 않은 문제가 있습니다.</span>
     <!-- 조건 선택 영역 -->
-    <div class="col-md-8">
-        <form>
+    <div class="col-md-10">
+        <form class="border m-3 p-3">
             <div class="form-group">
                 <label for="sortedBy-select">정렬 기준</label>
                 <div id="sortedBy-select">
@@ -21,6 +20,7 @@
                     <label for="avgTries">평균 시도 횟수</label>
                 </div>
             </div>
+            <hr class="separator">
             <div class="form-group">
                 <label for="direction-select">정렬 방향</label>
                 <div id="direction-select">
@@ -30,19 +30,182 @@
                     <label for="desc">내림차순</label>
                 </div>
             </div>
+            <hr class="separator">
             <div class="form-group">
                 <label for="tier-select">티어</label>
+<!--                <div id="tier-select">-->
+<!--                    {{#tiers}}-->
+<!--                        <input type="checkbox" id={{name}} name="tierFilter" value={{name}}>-->
+<!--                        <label for={{name}}>{{name}}</label>-->
+<!--                    {{/tiers}}-->
+<!--                </div>-->
                 <div id="tier-select">
-                    {{#tiers}}
-                        <input type="checkbox" id={{name}} name="tierFilter" value={{name}}>
-                        <label for={{name}}>{{name}}</label>
-                    {{/tiers}}
+                    <div class="row">
+                        <div class="col">
+                            <input type="checkbox" id="UNRATED" name="tierFilter" value="UNRATED">
+                            <label for="UNRATED">UNRATED</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input type="checkbox" id="BRONZE5" name="tierFilter" value="BRONZE5">
+                            <label for="BRONZE5">BRONZE5</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox" id="BRONZE4" name="tierFilter" value="BRONZE4">
+                            <label for="BRONZE4">BRONZE4</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox" id="BRONZE3" name="tierFilter" value="BRONZE3">
+                            <label for="BRONZE3">BRONZE3</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox" id="BRONZE2" name="tierFilter" value="BRONZE2">
+                            <label for="BRONZE2">BRONZE2</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox" id="BRONZE1" name="tierFilter" value="BRONZE1">
+                            <label for="BRONZE1">BRONZE1</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input type="checkbox" id="BRONZE5" name="tierFilter" value="BRONZE5">
+                            <label for="BRONZE5">BRONZE5</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox" id="BRONZE4" name="tierFilter" value="BRONZE4">
+                            <label for="BRONZE4">BRONZE4</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox" id="BRONZE3" name="tierFilter" value="BRONZE3">
+                            <label for="BRONZE3">BRONZE3</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox" id="BRONZE2" name="tierFilter" value="BRONZE2">
+                            <label for="BRONZE2">BRONZE2</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox" id="BRONZE1" name="tierFilter" value="BRONZE1">
+                            <label for="BRONZE1">BRONZE1</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input type="checkbox" id="SILVER5" name="tierFilter" value="SILVER5">
+                            <label for="SILVER5">SILVER5</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox" id="SILVER4" name="tierFilter" value="SILVER4">
+                            <label for="SILVER4">SILVER4</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox" id="SILVER3" name="tierFilter" value="SILVER3">
+                            <label for="SILVER3">SILVER3</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox" id="SILVER2" name="tierFilter" value="SILVER2">
+                            <label for="SILVER2">SILVER2</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox" id="SILVER1" name="tierFilter" value="SILVER1">
+                            <label for="SILVER1">SILVER1</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input type="checkbox" id="GOLD5" name="tierFilter" value="GOLD5">
+                            <label for="GOLD5">GOLD5</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox" id="GOLD4" name="tierFilter" value="GOLD4">
+                            <label for="GOLD4">GOLD4</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox" id="GOLD3" name="tierFilter" value="GOLD3">
+                            <label for="GOLD3">GOLD3</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox" id="GOLD2" name="tierFilter" value="GOLD2">
+                            <label for="GOLD2">GOLD2</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox" id="GOLD1" name="tierFilter" value="GOLD1">
+                            <label for="GOLD1">GOLD1</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input type="checkbox" id="PLATINUM5" name="tierFilter" value="PLATINUM5">
+                            <label for="PLATINUM5">PLATINUM5</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox" id="PLATINUM4" name="tierFilter" value="PLATINUM4">
+                            <label for="PLATINUM4">PLATINUM4</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox" id="PLATINUM3" name="tierFilter" value="PLATINUM3">
+                            <label for="PLATINUM3">PLATINUM3</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox" id="PLATINUM2" name="tierFilter" value="PLATINUM2">
+                            <label for="PLATINUM2">PLATINUM2</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox" id="PLATINUM1" name="tierFilter" value="PLATINUM1">
+                            <label for="PLATINUM1">PLATINUM1</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input type="checkbox" id="DIAMOND5" name="tierFilter" value="DIAMOND5">
+                            <label for="DIAMOND5">DIAMOND5</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox" id="DIAMOND4" name="tierFilter" value="DIAMOND4">
+                            <label for="DIAMOND4">DIAMOND4</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox" id="DIAMOND3" name="tierFilter" value="DIAMOND3">
+                            <label for="DIAMOND3">DIAMOND3</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox" id="DIAMOND2" name="tierFilter" value="DIAMOND2">
+                            <label for="DIAMOND2">DIAMOND2</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox" id="DIAMOND1" name="tierFilter" value="DIAMOND1">
+                            <label for="DIAMOND1">DIAMOND1</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input type="checkbox" id="RUBY5" name="tierFilter" value="RUBY5">
+                            <label for="RUBY5">RUBY5</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox" id="RUBY4" name="tierFilter" value="RUBY4">
+                            <label for="RUBY4">RUBY4</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox" id="RUBY3" name="tierFilter" value="RUBY3">
+                            <label for="RUBY3">RUBY3</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox" id="RUBY2" name="tierFilter" value="RUBY2">
+                            <label for="RUBY2">RUBY2</label>
+                        </div>
+                        <div class="col">
+                            <input type="checkbox" id="RUBY1" name="tierFilter" value="RUBY1">
+                            <label for="RUBY1">RUBY1</label>
+                        </div>
+                    </div>
                 </div>
             </div>
             <button type="submit" class="btn btn-primary" id="btn-query">조건 적용</button>
         </form>
-        <button type="button" class="btn btn-secondary" id="btn-prev">이전 페이지</button>
-        <button type="button" class="btn btn-secondary" id="btn-next">다음 페이지</button>
+<!--        <button type="button" class="btn btn-secondary" id="btn-prev">이전 페이지</button>-->
+<!--        <button type="button" class="btn btn-secondary" id="btn-next">다음 페이지</button>-->
     </div>
     <br>
     <div class="problem-list">
