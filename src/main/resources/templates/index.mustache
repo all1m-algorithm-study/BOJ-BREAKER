@@ -15,11 +15,11 @@
         <tbody id="tbody">
         {{#problems}}
             <tr>
-                <td>{{problemId}}</td>
-                <td><a href="https://www.boj.kr/{{problemId}}">{{title}}</a></td>
+                <td>{{code}}</td>
+                <td><a href="https://www.boj.kr/{{code}}">{{title}}</a></td>
                 <td>{{tier.title}}</td>
-                <td>{{acTries}}</td>
-                <td>{{avgTries}}</td>
+                <td>{{acCnt}}</td>
+                <td>{{acRate}}</td>
             </tr>
         {{/problems}}
         </tbody>

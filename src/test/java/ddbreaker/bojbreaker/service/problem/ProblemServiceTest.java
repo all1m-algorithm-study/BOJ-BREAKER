@@ -31,19 +31,4 @@ public class ProblemServiceTest {
         problemRepository.deleteAll();
     }
 
-    @Test
-    public void 전체_문제_크롤링_테스트() {
-        //given
-
-        //when
-        problemService.updateAllProblems(5);
-
-        //then
-        List<Problem> allProblems = problemRepository.findAll();
-        assertThat(allProblems.size()).isGreaterThan(1);
-        System.out.println("The number of Problems: " + allProblems.size());
-        for (Problem p: allProblems)
-            System.out.println(p.getProblemId() + " " + p.getTitle() + " " + p.getTier());
-
-    }
 }

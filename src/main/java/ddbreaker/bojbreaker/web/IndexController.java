@@ -2,7 +2,7 @@ package ddbreaker.bojbreaker.web;
 
 import ddbreaker.bojbreaker.domain.problem.SolvedAcTier;
 import ddbreaker.bojbreaker.service.problem.ProblemService;
-import ddbreaker.bojbreaker.service.school.SchoolService;
+import ddbreaker.bojbreaker.service.group.GroupService;
 import ddbreaker.bojbreaker.web.dto.ProblemListRequestDto;
 import ddbreaker.bojbreaker.web.dto.ProblemResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
@@ -23,26 +22,26 @@ import java.util.List;
 public class IndexController {
 
     private final ProblemService problemService;
-    private final SchoolService schoolService;
+    private final GroupService groupService;
     private final HttpSession httpSession;
 
     @GetMapping("/")
-    public String index(Model model) throws Exception {
+    public String index(Model model) {
         model.addAttribute("problems", problemService.findAll());
         return "index";
     }
 
-    @GetMapping("/unsolved/{schoolId}")
-    public String unsolved(@PathVariable Long schoolId, Model model) {
-        model.addAttribute("school", schoolService.findBySchoolId(schoolId));
-        List<ProblemResponseDto> unsolved = schoolService.findUnsolvedProblems(schoolId);
+    @GetMapping("/unsolved/{groupCode}")
+    public String unsolved(@PathVariable Long groupCode, Model model) {
+        model.addAttribute("group", groupService.findByGroupCode(groupCode));
+        List<ProblemResponseDto> unsolved = groupService.findUnsolvedProblems(groupCode);
         model.addAttribute("unsolvedSz", unsolved.size());
         model.addAttribute("unsolved", unsolved);
         return "unsolved-test";
     }
 
-    @GetMapping("/school/{schoolId}/unsolved")
-    public String findUnsolvedProblems(@PathVariable Long schoolId,
+    @GetMapping("/group/{groupCode}/unsolved")
+    public String findUnsolvedProblems(@PathVariable Long groupCode,
                                        @RequestParam(required = false, defaultValue = "tier") String sortedBy,
                                        @RequestParam(required = false, defaultValue = "asc") String direction,
                                        @RequestParam(required = false, defaultValue = "1") int page,
@@ -51,14 +50,14 @@ public class IndexController {
         if(tierFilter == null)
             tierFilter = new ArrayList<>();
         ProblemListRequestDto requestDto = ProblemListRequestDto.builder()
-                                                            .tierFilter(tierFilter)  // 추후 수정 요함
+                                                            .tierFilter(tierFilter)
                                                             .sortedBy(sortedBy)
                                                             .direction(direction)
                                                             .page(page)
                                                             .build();
-        model.addAttribute("school", schoolService.findBySchoolId(schoolId));
+        model.addAttribute("group", groupService.findByGroupCode(groupCode));
         model.addAttribute("tiers", Arrays.asList(SolvedAcTier.values()));
-        model.addAttribute("unsolved", schoolService.findUnsolvedProblems(schoolId, requestDto));
+        model.addAttribute("unsolved", groupService.findUnsolvedProblems(groupCode, requestDto));
         return "unsolved";
     }
 }
